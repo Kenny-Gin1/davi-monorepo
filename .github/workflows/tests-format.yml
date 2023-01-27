@@ -47,11 +47,13 @@ jobs:
       - name: Build local config
         run: node apps/davi/scripts/beforeBuild.js
 
+      - name: Run code format check
+        run: pnpm run format-check  
+        
       - name: Run Jests Test
         run: pnpm run test
 
-      - name: Run code format check
-        run: pnpm run format-check  
+
       
 
 
