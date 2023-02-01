@@ -16,7 +16,7 @@ type SupportedGovernanceSystem = 'SnapshotERC20Guild' | 'SnapshotRepGuild';
 
 export interface FetcherHooksInterface {
   useGetActiveProposals: (daoId: string) => {
-    data: BigNumber;
+    data: any;
     refetch: () => void;
   };
   useProposal: (

@@ -17,8 +17,9 @@ export const useGetActiveProposals = (guildAddress: string) => {
   const transformedData = useMemo(() => {
     if (!data) return undefined;
     console.log({ data });
-    console.log('hej hej');
-    return {};
+    const proposals = data.guild.proposals;
+    console.log({ proposals });
+    return proposals;
   }, [data]);
 
   return {
