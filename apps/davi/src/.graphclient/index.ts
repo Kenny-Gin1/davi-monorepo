@@ -2608,6 +2608,13 @@ export async function getMeshOptions(): Promise<GetMeshOptions> {
     get documents() {
       return [
         {
+          document: GetActiveProposalsDocument,
+          get rawSDL() {
+            return printWithCache(GetActiveProposalsDocument);
+          },
+          location: 'GetActiveProposalsDocument.graphql',
+        },
+        {
           document: GetGuildConfigDocument,
           get rawSDL() {
             return printWithCache(GetGuildConfigDocument);
@@ -2660,6 +2667,16 @@ export function getBuiltGraphSDK<TGlobalContext = any, TOperationContext = any>(
     sdkRequester$.then(sdkRequester => sdkRequester(...args))
   );
 }
+export type getActiveProposalsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type getActiveProposalsQuery = {
+  guild?: Maybe<
+    Pick<Guild, 'id'> & { proposals?: Maybe<Array<Pick<Proposal, 'id'>>> }
+  >;
+};
+
 export type getGuildConfigQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2685,6 +2702,19 @@ export type getGuildConfigQuery = {
   >;
 };
 
+export const getActiveProposalsDocument = gql`
+  query getActiveProposals($id: ID!) {
+    guild(id: $id) {
+      id
+      proposals {
+        id
+      }
+    }
+  }
+` as unknown as DocumentNode<
+  getActiveProposalsQuery,
+  getActiveProposalsQueryVariables
+>;
 export const getGuildConfigDocument = gql`
   query getGuildConfig($id: ID!) {
     guild(id: $id) {
@@ -2715,6 +2745,19 @@ export type Requester<C = {}, E = unknown> = <R, V>(
 ) => Promise<R> | AsyncIterable<R>;
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
+    getActiveProposals(
+      variables: getActiveProposalsQueryVariables,
+      options?: C
+    ): Promise<getActiveProposalsQuery> {
+      return requester<
+        getActiveProposalsQuery,
+        getActiveProposalsQueryVariables
+      >(
+        getActiveProposalsDocument,
+        variables,
+        options
+      ) as Promise<getActiveProposalsQuery>;
+    },
     getGuildConfig(
       variables: getGuildConfigQueryVariables,
       options?: C

@@ -1,21 +1,9 @@
-query getGuildConfig($id: ID!) {
+query getActiveProposals($id: ID!) {
   guild(id: $id) {
     id
-    name
-    token {
+    proposals {
       id
     }
-    permissionRegistry
-    proposalTime
-    timeForExecution
-    maxActiveProposals
-    votingPowerForProposalCreation
-    votingPowerForProposalExecution
-    lockTime
-    voteGas
-    maxGasPrice
-    minimumMembersForProposalCreation
-    minimumTokensLockedForProposalCreation
   }
 }
 
