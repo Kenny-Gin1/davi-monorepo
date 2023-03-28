@@ -1,0 +1,1 @@
+export { PollComponent }  from './MultiChoicePoll';
